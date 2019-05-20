@@ -61,3 +61,19 @@ function promptQuantity(product, productList) {
         name: 'quantity',
         message: 'How many units of product would you like to buy?'
     }).then(function (answer) {
+
+		if (product.stock_quantity >= answer.quantity) {
+            connection.query('UPDATE products SET stock_quantity="' + (product.stock_quantity - answer.quantity) + '", product_sales="' + (product.product_sales + answer.quantity * product.price) + '" WHERE item_id="' + product.item_id + '"', function () {
+                connection.query('UPDATE departments SET total_sales=total_sales+' + (answer.quantity * product.price) + ' WHERE department_name="' + product.department_name + '"', function () {
+                    console.log('\n  Purchased ' + answer.quantity + ' of item "' + product.product_name + '" for $' + ((answer.quantity * product.price).toFixed(2)) + '. \n')
+                });
+                createTable();
+            })
+		}
+		else if (product.stock_quantity < answer.quantity) {
+            console.log('There are ' + product.stock_quantity + ' remaining in Camazon inventory. Cannot complete request.');
+            promptCustomer(productList);
+        }
+	});
+	
+}
