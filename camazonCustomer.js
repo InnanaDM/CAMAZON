@@ -31,11 +31,33 @@ function promptCustomer(res) {
 	inquirer.prompt([{
         type: 'input',
         name: 'selection',
-        message: 'Please provide ID of the item you would like to buy. [ E to exit ]'
+        message: 'provide ID of item you would like to buy. [ E to exit ]'
     }]).then(function (answer) {
 		var validInput = false;
 
 		if (answer.selection.toUpperCase() === 'E') {
             console.log('exiting...');
             process.exit();
+		}
+		for (var i = 0; i < res.length; i++) {
+            if (res[i].item_id === parseInt(answer.selection)) {
+                validInput = true;
+                promptQuantity(res[i], res);
+                break;
+            }
+		}
+		
+		if (!validInput) {
+            console.log('no item found');
+            promptCustomer(res);
         }
+
+    })
+}
+
+function promptQuantity(product, productList) {
+    inquirer.prompt({
+        type: 'input',
+        name: 'quantity',
+        message: 'How many units of product would you like to buy?'
+    }).then(function (answer) {
