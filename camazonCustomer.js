@@ -1,12 +1,15 @@
-require('dotenv').config;
+require('dotenv').config();
 const mysql = require('mysql');
 const prompt = require('prompt');
 const colors = require('colors/safe');
 const Table = require('cli-table');
+const inquirer = require('inquirer');
+
 
 const connection = mysql.createConnection({
-	host: process.env.DB_HOST,
-	user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
 	password: process.env.DB_PASSWORD,
 	database: process.env.DB_DATABASE 
 });
