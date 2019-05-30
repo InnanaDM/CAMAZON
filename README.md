@@ -1,6 +1,7 @@
 # CAMAZON
  Amazon-like storefront with MySQL and Node
 
+CAMAZON is a wholesale survival store-front
 <!-- img shows that database connects -->
  <img src="Camazon-databaseConnected.png">
 
